@@ -26,17 +26,19 @@ function Nav() {
 
   return (
     <div className={classes.root}>
-      <Paper elevation={0} className={classes.paper}>
-        <Breadcrumbs separator="›" aria-label="Breadcrumb">
-          <Link color="textPrimary" onClick={handleClick}>
-            Login{" "}
-          </Link>
-          <Link color="textPrimary" onClick={handleClick}>
-            Search clients
-          </Link>
-          <Typography color="textPrimary">Search policies</Typography>
-        </Breadcrumbs>
-      </Paper>
+      <Router>
+        <Paper elevation={0} className={classes.paper}>
+          <Breadcrumbs separator="›" aria-label="Breadcrumb">
+            <Link color="textPrimary" onClick={handleClick}>
+              Login{" "}
+            </Link>
+            <Link color="textPrimary" onClick={handleClick}>
+              Search clients
+            </Link>
+            <Typography color="textPrimary">Search policies</Typography>
+          </Breadcrumbs>
+        </Paper>
+      </Router>
     </div>
   );
 }
