@@ -1,13 +1,15 @@
 import React from "react";
 import axios from "axios";
 import NameFilter from "./NameFilter";
+import ClientInfo from "./ClientInfo";
+import IdFilter from "./IdFilter";
 
 export default class ClientList extends React.Component {
   constructor() {
     super();
     this.state = {
       clients: [],
-      filteredNames: [],
+      filteredClients: [],
       nameFilter: ""
     };
   }
@@ -16,8 +18,8 @@ export default class ClientList extends React.Component {
       console.log(res.data.clients);
       const clients = res.data.clients;
       // filteredNames: clients
-      this.setState({ clients, filteredNames: clients });
-      console.log(this.state.filteredNames);
+      this.setState({ clients, filteredClients: clients });
+      console.log(this.state.filteredClients);
     });
   }
 
@@ -27,25 +29,33 @@ export default class ClientList extends React.Component {
       let clientName = client.name.toLowerCase();
       return clientName.indexOf(nameFilter.toLowerCase()) !== -1;
     });
-    this.setState({ filteredNames: filteredNames });
+    this.setState({ filteredClients: filteredNames });
     console.log(filteredNames);
+  };
+
+  filterIds = idFilter => {
+    const clients = this.state.clients;
+    let filteredIds = clients.filter(client => {
+      let clientId = client.id.toLowerCase();
+      return clientId.indexOf(idFilter.toLowerCase()) !== -1;
+    });
+    this.setState({ filteredClients: filteredIds });
+    console.log(filteredIds);
   };
 
   render() {
     return (
       <div>
         <NameFilter
-          clients={this.state.filteredNames}
-          match={this.props.match}
+          clients={this.state.filteredClients}
           onChange={this.filterNames}
         />
-        <ul>
-          {this.state.filteredNames.map(client => (
-            <li key={client.id}>
-              {client.name} <button>More Info</button>
-            </li>
-          ))}
-        </ul>
+        <IdFilter
+          clients={this.state.filteredClients}
+          onChange={this.filterIds}
+        />
+        <br />
+        <ClientInfo greeting={"hello"} clients={this.state.filteredClients} />
       </div>
     );
   }

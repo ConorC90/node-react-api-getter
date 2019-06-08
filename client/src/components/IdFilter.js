@@ -31,16 +31,16 @@ function RedditTextField(props) {
   );
 }
 
-class Namefilter extends Component {
+class Idfilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientFilter: ""
+      idFilter: ""
     };
   }
   handleChange = e => {
     this.setState({
-      clientFilter: e.target.value
+      idFilter: e.target.value
     });
     this.props.onChange(e.target.value);
   };
@@ -48,14 +48,14 @@ class Namefilter extends Component {
   render() {
     return (
       <div className="cities-filter">
-        <p>Search our clients by name:</p>
+        <p>Search our clients by ID:</p>
         <RedditTextField
-          label="Search by Name"
-          placeholder="Search by Name"
+          label="Search by ID"
+          placeholder="Search by ID"
           variant="filled"
           id="reddit-input"
           className="form-control"
-          value={this.state.clientFilter}
+          value={this.state.idFilter}
           onChange={this.handleChange}
         />
       </div>
@@ -63,4 +63,4 @@ class Namefilter extends Component {
   }
 }
 
-export default Namefilter;
+export default Idfilter;
