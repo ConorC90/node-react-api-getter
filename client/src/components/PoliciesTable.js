@@ -6,62 +6,69 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import axios from "axios";
+import Moment from "react-moment";
+import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
+    width: "90%",
     marginTop: theme.spacing(3),
     overflowX: "auto"
   },
   table: {
-    minWidth: 650
+    width: "90%"
   }
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+export default class PoliciesTable extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      policies: []
+    };
+  }
+  componentDidMount() {
+    axios.get(`https://www.mocky.io/v2/580891a4100000e8242b75c5`).then(res => {
+      const policies = res.data.policies;
+      this.setState({ policies });
+    });
+  }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
-
-function SimpleTable() {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Amount insured</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Inception Date</TableCell>
-            <TableCell align="right">Installment Payment</TableCell>
-            <TableCell align="right">Client ID</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+  render() {
+    return (
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="right">Amount insured</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Inception Date</TableCell>
+              <TableCell align="right">Installment Payment</TableCell>
+              <TableCell align="right">Client ID</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
+          </TableHead>
+          <TableBody>
+            {this.state.policies.map(policy => (
+              <TableRow key={policy.id}>
+                <TableCell component="th" scope="row">
+                  {policy.id}
+                </TableCell>
+                <TableCell align="right">{policy.amountInsured}</TableCell>
+                <TableCell align="right">{policy.email}</TableCell>
+                <TableCell align="right">
+                  {moment(policy.inceptionDate).format("YYYY/MM/DD")}
+                </TableCell>
+                <TableCell align="right">
+                  <div>{policy.installmentPayment.toString()}</div>
+                </TableCell>
+                <TableCell align="right">{policy.clientId}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    );
+  }
 }
-
-export default SimpleTable;

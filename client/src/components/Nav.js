@@ -17,10 +17,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function handleClick(event) {
-  event.preventDefault();
-}
-
 function Nav() {
   const classes = useStyles();
 
@@ -29,13 +25,15 @@ function Nav() {
       <Router>
         <Paper elevation={0} className={classes.paper}>
           <Breadcrumbs separator="›" aria-label="Breadcrumb">
-            <Link color="textPrimary" onClick={handleClick}>
+            <Link color="textPrimary" href="/">
               Login{" "}
             </Link>
-            <Link color="textPrimary" onClick={handleClick}>
+            <Link color="textPrimary" href="/clients">
               Search clients
             </Link>
-            <Typography color="textPrimary">Search policies</Typography>
+            <Link color="textPrimary" href="/policies">
+              Search policies
+            </Link>
           </Breadcrumbs>
         </Paper>
       </Router>

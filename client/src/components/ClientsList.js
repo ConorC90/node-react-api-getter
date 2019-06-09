@@ -55,7 +55,7 @@ export default class ClientList extends React.Component {
           onChange={this.filterIds}
         />
         <br />
-        <ClientInfo greeting={"hello"} clients={this.state.filteredClients} />
+        <ClientInfo clients={this.state.filteredClients} />
       </div>
     );
   }
