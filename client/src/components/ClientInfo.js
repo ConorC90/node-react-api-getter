@@ -6,6 +6,9 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import axios from "axios";
+import MatchingPolicies from "./MatchingPolicies";
+// const items = arr.filter(item => item.arrayWithvalue.indexOf("4") !== -1);
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -24,8 +27,19 @@ class ClientInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
+      clientId: "",
+      policies: [],
+      filteredPolicies: []
     };
+  }
+
+  componentDidMount() {
+    axios.get(`https://www.mocky.io/v2/580891a4100000e8242b75c5`).then(res => {
+      const policies = res.data.policies;
+      this.setState({ policies });
+      console.log(this.state.policies);
+    });
   }
 
   handleExpandClick = () => {
@@ -35,17 +49,26 @@ class ClientInfo extends Component {
     });
   };
 
-  handleChange = e => {
-    this.setState({
-      nameFilter: e.target.value
+  handleClick = e => {
+    this.theClientID = e.target.value;
+    this.filterPoliciesIds(this.theClientID);
+  };
+
+  filterPoliciesIds = theClientID => {
+    const policies = this.props.policies;
+    let filteredPolicies = policies.filter(policy => {
+      let clientId = policy.clientId.toLowerCase();
+      return clientId.indexOf(theClientID.toLowerCase()) !== -1;
     });
-    this.props.onChange(e.target.value);
-    // this.props.onChange(this.state.nameFilter);
+    this.setState({ filteredPolicies: filteredPolicies });
+    console.log(filteredPolicies);
+    if (filteredPolicies.length === 0) {
+      document.getElementById("usersPolicies").innerHTML =
+        "There are no policies for this client";
+    }
   };
 
   render() {
-    // console.log(this.props.clients[1].name);
-
     return (
       <div>
         {this.props.clients.map((client, i) => (
@@ -58,14 +81,24 @@ class ClientInfo extends Component {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
+              // onClick={this.filterIds}
+              value={client.id}
             >
-              <Typography>{client.name}</Typography>
+              <Typography>{client.name} </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div>
                 <p> Email: {client.email}</p>
                 <p> ID: {client.id} </p>
                 <p> Role: {client.role} </p>
+                <button value={client.id} onClick={this.handleClick}>
+                  Policies linked to User
+                </button>
+                <div>
+                  <MatchingPolicies
+                    matchingPolicies={this.state.filteredPolicies}
+                  />
+                </div>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>

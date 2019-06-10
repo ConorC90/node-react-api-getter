@@ -35,12 +35,12 @@ class Namefilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientFilter: ""
+      nameFilter: ""
     };
   }
   handleChange = e => {
     this.setState({
-      clientFilter: e.target.value
+      nameFilter: e.target.value
     });
     this.props.onChange(e.target.value);
   };

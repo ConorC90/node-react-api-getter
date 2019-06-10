@@ -48,7 +48,7 @@ class Idfilter extends Component {
   render() {
     return (
       <div className="cities-filter">
-        <p>Search our clients by ID:</p>
+        <p>Search by ID:</p>
         <RedditTextField
           label="Search by ID"
           placeholder="Search by ID"

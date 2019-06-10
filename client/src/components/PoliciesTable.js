@@ -7,8 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import Moment from "react-moment";
 import moment from "moment";
+import IdFilter from "./IdFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,40 +35,53 @@ export default class PoliciesTable extends React.Component {
     });
   }
 
+  filterIds = idFilter => {
+    const policies = this.state.policies;
+    let filteredIds = policies.filter(client => {
+      let policyIds = client.id.toLowerCase();
+      return policyIds.indexOf(idFilter.toLowerCase()) !== -1;
+    });
+    this.setState({ policies: filteredIds });
+    console.log(filteredIds);
+  };
+
   render() {
     return (
-      <Paper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Amount insured</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Inception Date</TableCell>
-              <TableCell align="right">Installment Payment</TableCell>
-              <TableCell align="right">Client ID</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.policies.map(policy => (
-              <TableRow key={policy.id}>
-                <TableCell component="th" scope="row">
-                  {policy.id}
-                </TableCell>
-                <TableCell align="right">{policy.amountInsured}</TableCell>
-                <TableCell align="right">{policy.email}</TableCell>
-                <TableCell align="right">
-                  {moment(policy.inceptionDate).format("YYYY/MM/DD")}
-                </TableCell>
-                <TableCell align="right">
-                  <div>{policy.installmentPayment.toString()}</div>
-                </TableCell>
-                <TableCell align="right">{policy.clientId}</TableCell>
+      <div>
+        <IdFilter onChange={this.filterIds} />
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align="right">Amount insured</TableCell>
+                <TableCell align="right">Email</TableCell>
+                <TableCell align="right">Inception Date</TableCell>
+                <TableCell align="right">Installment Payment</TableCell>
+                <TableCell align="right">Client ID</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+            </TableHead>
+            <TableBody>
+              {this.state.policies.map(policy => (
+                <TableRow key={policy.id}>
+                  <TableCell component="th" scope="row">
+                    {policy.id}
+                  </TableCell>
+                  <TableCell align="right">{policy.amountInsured}</TableCell>
+                  <TableCell align="right">{policy.email}</TableCell>
+                  <TableCell align="right">
+                    {moment(policy.inceptionDate).format("YYYY/MM/DD")}
+                  </TableCell>
+                  <TableCell align="right">
+                    <div>{policy.installmentPayment.toString()}</div>
+                  </TableCell>
+                  <TableCell align="right">{policy.clientId}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </div>
     );
   }
 }
