@@ -25,8 +25,8 @@ function Nav() {
       <Router>
         <Paper elevation={0} className={classes.paper}>
           <Breadcrumbs separator="›" aria-label="Breadcrumb">
-            <Link color="textPrimary" href="/">
-              Login{" "}
+            <Link color="textPrimary" href="/login">
+              Login
             </Link>
             <Link color="textPrimary" href="/clients">
               Search clients

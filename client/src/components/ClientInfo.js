@@ -7,6 +7,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
+import Link from "@material-ui/core/Link";
 import MatchingPolicies from "./MatchingPolicies";
 // const items = arr.filter(item => item.arrayWithvalue.indexOf("4") !== -1);
 
@@ -29,18 +30,18 @@ class ClientInfo extends Component {
     this.state = {
       expanded: false,
       clientId: "",
-      policies: [],
+      // policies: [],
       filteredPolicies: []
     };
   }
 
-  componentDidMount() {
-    axios.get(`https://www.mocky.io/v2/580891a4100000e8242b75c5`).then(res => {
-      const policies = res.data.policies;
-      this.setState({ policies });
-      console.log(this.state.policies);
-    });
-  }
+  // componentDidMount() {
+  //   axios.get(`https://www.mocky.io/v2/580891a4100000e8242b75c5`).then(res => {
+  //     const policies = res.data.policies;
+  //     this.setState({ policies });
+  //     console.log(this.state.policies);
+  //   });
+  // }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -62,10 +63,10 @@ class ClientInfo extends Component {
     });
     this.setState({ filteredPolicies: filteredPolicies });
     console.log(filteredPolicies);
-    if (filteredPolicies.length === 0) {
-      document.getElementById("usersPolicies").innerHTML =
-        "There are no policies for this client";
-    }
+    // if (filteredPolicies.length === 0) {
+    //   document.getElementById("usersPolicies").innerHTML =
+    //     "There are no policies for this client";
+    // }
   };
 
   render() {
@@ -91,14 +92,15 @@ class ClientInfo extends Component {
                 <p> Email: {client.email}</p>
                 <p> ID: {client.id} </p>
                 <p> Role: {client.role} </p>
-                <button value={client.id} onClick={this.handleClick}>
+                <Link
+                  to={`/client/${client.id}`}
+                  value={client.id}
+                  onClick={this.handleClick}
+                  href={`/client/${client.id}`}
+                  theClientID={this.state.clientId}
+                >
                   Policies linked to User
-                </button>
-                <div>
-                  <MatchingPolicies
-                    matchingPolicies={this.state.filteredPolicies}
-                  />
-                </div>
+                </Link>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
