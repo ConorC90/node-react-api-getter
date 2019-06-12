@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import ClientList from "./components/ClientsList";
+import MatchingClients from "./components/MatchingClients";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -20,6 +21,7 @@ function App() {
           <Route path={"/clients"} component={ClientList} />
           <Route path={"/policies"} component={PoliciesTable} />
           <Route path={"/client/:clientId"} component={MatchingPolicies} />
+          <Route path={"/policy/:policyId"} component={MatchingClients} />
         </Router>
         {/* 
         <Nav />

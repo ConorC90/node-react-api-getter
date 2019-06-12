@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import moment from "moment";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,8 +27,7 @@ export default class PoliciesTable extends React.Component {
     super();
     this.state = {
       policies: [],
-      filteredPolicies: [],
-      theClientID: "e8fd159b-57c4-4d36-9bd7-a59ca13057bb"
+      filteredPolicies: []
     };
   }
 
@@ -36,16 +36,14 @@ export default class PoliciesTable extends React.Component {
       .get(`https://www.mocky.io/v2/580891a4100000e8242b75c5`)
       .then(res => {
         const policies = res.data.policies;
-        this.setState({ policies });
+        this.setState({ policies: policies, filteredPolicies: policies });
         console.log(this.state.policies);
       })
       .then(res => {
         this.filterPoliciesIds(this.props.match.params.clientId);
+        console.log(this.props.match.params.clientId);
       });
   }
-  handelOnClick = () => {
-    this.filterPoliciesIds(this.props.match.params.clientId);
-  };
 
   filterPoliciesIds = theClientID => {
     const policies = this.state.policies;
@@ -55,14 +53,12 @@ export default class PoliciesTable extends React.Component {
       return clientId.indexOf(theClientID) !== -1;
     });
     this.setState({ filteredPolicies: filteredPolicies });
-    if (this.state.filteredPolicies.length == 0) {
-      document.getElementById("policyTable").innerHTML = "no policies";
-    }
   };
 
   render() {
     return (
       <div id="policyTable">
+        <h3>Number of search results:{this.state.filteredPolicies.length}</h3>
         <Paper>
           <Table>
             <TableHead>
@@ -89,7 +85,17 @@ export default class PoliciesTable extends React.Component {
                   <TableCell align="right">
                     <div>{policy.installmentPayment.toString()}</div>
                   </TableCell>
-                  <TableCell align="right">{policy.clientId}</TableCell>
+                  <TableCell>
+                    <Link
+                      to={`/policy/${policy.clientId}`}
+                      // value={client.id}
+                      onChange={this.handleClick}
+                      href={`/policy/${policy.clientId}`}
+                      theclientid={this.state.clientId}
+                    >
+                      {policy.clientId}
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -1,66 +1,74 @@
-import React, { Component } from "react";
-import Button from "@material-ui/core/IconButton";
+import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import axios from "axios";
+import moment from "moment";
+import Link from "@material-ui/core/Link";
+
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import axios from "axios";
-import Link from "@material-ui/core/Link";
+
 import MatchingPolicies from "./MatchingPolicies";
-// const items = arr.filter(item => item.arrayWithvalue.indexOf("4") !== -1);
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
-  },
   root: {
-    width: "100%"
+    width: "90%",
+    marginTop: theme.spacing(3),
+    overflowX: "auto"
   },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular
+  table: {
+    width: "90%"
   }
 }));
 
-class ClientInfo extends Component {
-  constructor(props) {
-    super(props);
+export default class PoliciesTable extends React.Component {
+  constructor() {
+    super();
     this.state = {
-      expanded: false,
-      clientId: "",
-      // policies: [],
-      filteredPolicies: []
+      filteredClients: [],
+      clients: []
     };
   }
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-    this.setState(function(prevState) {
-      return { isToggleOn: !prevState.isToggleOn };
-    });
-  };
-
-  handleClick = e => {
-    this.theClientID = e.target.value;
-    this.filterPoliciesIds(this.theClientID);
-  };
+  componentDidMount() {
+    axios
+      .get(`https://www.mocky.io/v2/5808862710000087232b75ac`)
+      .then(res => {
+        const clients = res.data.clients;
+        this.setState({ clients: clients, filteredClients: clients });
+        console.log(this.state.clients);
+        console.log(this.props.match.params.policyId);
+      })
+      .then(res => {
+        this.filterPoliciesIds(this.props.match.params.policyId);
+        console.log(this.props.match.params.policyId);
+      });
+  }
 
   filterPoliciesIds = theClientID => {
-    const policies = this.props.policies;
-    let filteredPolicies = policies.filter(policy => {
-      let clientId = policy.clientId.toLowerCase();
-      return clientId.indexOf(theClientID.toLowerCase()) !== -1;
+    console.log(theClientID);
+    const clients = this.state.clients;
+    console.log(this.state.clients);
+    let filteredClients = clients.filter(client => {
+      let policyId = client.id;
+      console.log(client.policyId);
+      return policyId.indexOf(theClientID) !== -1;
     });
-    this.setState({ filteredPolicies: filteredPolicies });
-    console.log(filteredPolicies);
+    this.setState({ filteredClients: filteredClients });
   };
 
   render() {
     return (
       <div>
-        {this.props.clients.map((client, i) => (
+        {this.state.filteredClients.map((client, i) => (
           <ExpansionPanel key={i}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
@@ -93,5 +101,3 @@ class ClientInfo extends Component {
     );
   }
 }
-
-export default ClientInfo;
