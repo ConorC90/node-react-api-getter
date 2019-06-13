@@ -11,17 +11,6 @@ import moment from "moment";
 import IdFilter from "./IdFilter";
 import Link from "@material-ui/core/Link";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "90%",
-    marginTop: theme.spacing(3),
-    overflowX: "auto"
-  },
-  table: {
-    width: "90%"
-  }
-}));
-
 export default class PoliciesTable extends React.Component {
   constructor() {
     super();
@@ -81,7 +70,6 @@ export default class PoliciesTable extends React.Component {
                   <TableCell align="right">
                     <Link
                       to={`/policy/${policy.clientId}`}
-                      // value={client.id}
                       onChange={this.handleClick}
                       href={`/policy/${policy.clientId}`}
                       theclientid={this.state.clientId}

@@ -27,7 +27,7 @@ const UserRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem("authLevel") === "user" ? (
+      localStorage.getItem("authLevel") === "user" || "admin" ? (
         <Component {...props} />
       ) : (
         <Redirect to="/login" />
@@ -40,18 +40,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* history={browserHistroy} */}
         <Nav />
         <Router>
+          <Route exact path={"/"} component={Login} />
           <Route path={"/login"} component={Login} />
           <UserRoute path={"/clients"} component={ClientList} />
           <AdminRoute path={"/policies"} component={PoliciesTable} />
           <AdminRoute path={"/client/:clientId"} component={MatchingPolicies} />
           <AdminRoute path={"/policy/:policyId"} component={MatchingClients} />
         </Router>
-        {/* 
-        <Nav />
-        <ClientList /> */}
       </header>
     </div>
   );

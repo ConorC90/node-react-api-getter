@@ -11,6 +11,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import axios from "axios";
+import "../index.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles(theme => ({
   },
   withoutLabel: {
     marginTop: theme.spacing(3)
+  },
+  button: {
+    margin: theme.spacing(1)
   },
   textField: {
     flexBasis: 200
@@ -92,54 +96,69 @@ export default class Login extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <div>
+      <div className="flexCenter">
         <form onSubmit={this.onSubmit}>
-          <div className="linkDiv">
-            <p>Username:</p>{" "}
-            <TextField
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange("username")}
-              required
-              id="standard-required"
-              label="Required"
-              margin="normal"
-            />
+          <h3>(Your username is you Name)Username:</h3>{" "}
+          <TextField
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleChange("username")}
+            required
+            id="standard-required"
+            label="Name"
+            margin="normal"
+          />
+          <h3>(Your password is your emailaddress)Password:</h3>
+          <TextField
+            name="password"
+            id="outlined-adornment-password"
+            type={this.state.showPassword ? "text" : "password"}
+            label="Email"
+            value={this.state.password}
+            onChange={this.handleChange("password")}
+            required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Toggle password visibility"
+                    onClick={this.handleClickShowPassword}
+                  >
+                    {this.state.showPassword ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+          />
+          <div>
+            <IconButton
+              type="submit"
+              // className={classes.button}
+              variant="contained"
+            >
+              Login
+            </IconButton>
           </div>
-          <div className="linkDiv">
-            <p>Password:</p>
-            <TextField
-              name="password"
-              id="outlined-adornment-password"
-              type={this.state.showPassword ? "text" : "password"}
-              label="Password"
-              value={this.state.password}
-              onChange={this.handleChange("password")}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                    >
-                      {this.state.showPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </div>
-          <IconButton type="submit" variant="contained">
-            OK
-          </IconButton>
         </form>
+        <div>
+          <p>You must be logged into access certin information</p>
+          <p>
+            Sample login for a admin.
+            <br /> username: Britney <br />
+            password: britneyblankenship@quotezart.com
+          </p>
+          <p>
+            Sample login for a user
+            <br /> username: Spears
+            <br /> password: spearsblankenship@quotezart.com
+          </p>
+        </div>
       </div>
     );
   }
