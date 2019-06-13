@@ -35,7 +35,6 @@ class ClientInfo extends Component {
       return clientId.indexOf(theClientID.toLowerCase()) !== -1;
     });
     this.setState({ filteredPolicies: filteredPolicies });
-    console.log(filteredPolicies);
   };
 
   render() {

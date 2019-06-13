@@ -1,6 +1,4 @@
 import React from "react";
-
-import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -10,17 +8,6 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import moment from "moment";
 import Link from "@material-ui/core/Link";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "90%",
-    marginTop: theme.spacing(3),
-    overflowX: "auto"
-  },
-  table: {
-    width: "90%"
-  }
-}));
 
 export default class PoliciesTable extends React.Component {
   constructor() {
@@ -37,17 +24,15 @@ export default class PoliciesTable extends React.Component {
       .then(res => {
         const policies = res.data.policies;
         this.setState({ policies: policies, filteredPolicies: policies });
-        console.log(this.state.policies);
       })
       .then(res => {
         this.filterPoliciesIds(this.props.match.params.clientId);
-        console.log(this.props.match.params.clientId);
       });
   }
 
   filterPoliciesIds = theClientID => {
     const policies = this.state.policies;
-    console.log(this.state.policies);
+
     let filteredPolicies = policies.filter(policy => {
       let clientId = policy.clientId;
       return clientId.indexOf(theClientID) !== -1;

@@ -42,10 +42,8 @@ class Namefilter extends Component {
     this.setState({
       nameFilter: e.target.value
     });
-    console.log(e.target.value);
-    console.log(this.state.nameFilter);
+
     this.props.onChange(e.target.value);
-    console.log(this.state.nameFilter);
   };
 
   render() {

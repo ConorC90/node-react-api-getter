@@ -17,7 +17,6 @@ export default class ClientList extends React.Component {
     axios.get(`https://www.mocky.io/v2/5808862710000087232b75ac`).then(res => {
       const clients = res.data.clients;
       this.setState({ clients: clients, filteredClients: clients });
-      console.log(this.state.filteredClients);
     });
   }
 
@@ -28,7 +27,6 @@ export default class ClientList extends React.Component {
       return clientName.indexOf(nameFilter.toLowerCase()) !== -1;
     });
     this.setState({ filteredClients: filteredNames });
-    console.log(filteredNames);
   };
 
   filterIds = idFilter => {
@@ -38,7 +36,6 @@ export default class ClientList extends React.Component {
       return clientId.indexOf(idFilter.toLowerCase()) !== -1;
     });
     this.setState({ filteredClients: filteredIds });
-    console.log(filteredIds);
   };
 
   render() {
