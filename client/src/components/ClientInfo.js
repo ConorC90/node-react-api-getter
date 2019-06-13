@@ -6,7 +6,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import axios from "axios";
+
 import Link from "@material-ui/core/Link";
 import MatchingPolicies from "./MatchingPolicies";
 // const items = arr.filter(item => item.arrayWithvalue.indexOf("4") !== -1);
